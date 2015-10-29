@@ -1,3 +1,2 @@
-# pi-fly
-A python program to control a helicopter with an Raspberry Pi.
-Hello
+# Pi-Fly
+A python program to control a Revell Sky Fun helicopter with an Raspberry Pi.
