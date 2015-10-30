@@ -4,8 +4,10 @@ import imp
 from sys import version_info
 
 print("Warning!")
+print("The computer has no idea where to helicopter(s) are.")
+print("Please use main.py if the helicopter(s) are not chained to the floor.")
 print("This program is a dry-run to test the code.")
-print("Please execute main.py for the real program.")
+print("Please execute without-cv.py for the real program.")
 
 try:
     imp.find_module('RPIO')

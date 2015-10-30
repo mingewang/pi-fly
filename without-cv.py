@@ -3,6 +3,9 @@ import time
 import imp
 from sys import version_info
 
+print("The computer has no idea where to helicopter(s) are.")
+print("Please use main.py if the helicopter(s) are not chained to the floor.")
+
 try:
     imp.find_module('RPIO')
     import RPIO as GPIO
