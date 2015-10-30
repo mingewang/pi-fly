@@ -23,7 +23,7 @@ right_pin = 15
 stationary_pin = 16
 backward_pin = 18
 
-pin_list = [updown_pin, neutral_pin, right_pin, statinory_pin, backward_pin]
+pin_list = [updown_pin, neutral_pin, right_pin, stationary_pin, backward_pin]
 checkpoints = {}
 flight_data = {
     "checkpoints": checkpoints,
@@ -64,9 +64,22 @@ def n_c(n):  # Checks if input is numeric
 
 
 def flight_path(user_input):
-    if user_input == print:
-        for i in sorted(checkpoint):
-            print(checkpoint[i])
+    if user_input == "print":
+        if bool(checkpoints) == True:
+            print("This is the flight path:")
+            for i, j in sorted(checkpoints.items()):
+                print(i, ":", j)
+        else:
+            print("Sorry no flight path is set.")
+    elif user_input == "delete":
+        u_input = input("Are you sure you want to delete the flight path?").lower()
+        if u_input == "yes" or u_input == "y":
+            checkpoints = {}
+            print("The flight path has been deleted.")
+        else:
+            print("The flight path has not been deleted.")
+    else:
+        print("Error: unknown command.")
 
 
 def set_checkpointpoint(x, y, z, w):
@@ -119,13 +132,13 @@ def updown(thrust, air_time):  # Thrust is a value between 0 and 1
 
 
 def leftright(direction, air_time):
-    if direction == left:
+    if direction == "left":
         GPIO.output(updown_pin, 1)
         GPIO.output(neutral_pin, 0)
         time.sleep(air_time)
         GPIO.output(neutral_pin, 1)
         GPIO.output(updown_pin, 0)
-    elif direction == right:
+    elif direction == "right":
         GPIO.output(updown_pin, 1)
         GPIO.output(neutral_pin, 0)
         GPIO.output(right_pin, 1)
@@ -139,13 +152,13 @@ def leftright(direction, air_time):
 
 
 def forwardbackward(direction, air_time):
-    if direction == forward:
+    if direction == "forward":
         GPIO.output(updown_pin, 1)
         GPIO.output(stationary_pin, 0)
         time.sleep(air_time)
         GPIO.output(stationary_pin, 1)
         GPIO.output(updown_pin, 0)
-    elif direction == backward:
+    elif direction == "backward":
         GPIO.output(updown_pin, 1)
         GPIO.output(stationary_pin, 0)
         GPIO.output(backward_pin, 1)
@@ -157,23 +170,25 @@ def forwardbackward(direction, air_time):
         print("Error")
     return
 
+error = 0
+
 while True:
     user_input = input("You have the following options: up, left/right, forward/backward and exit, default air_time at the moment is 5 seconds.").lower()
-    if user_input == exit:
+    if user_input == "exit":
         break
-    elif user_input == up:
+    elif user_input == "up":
         updown(1, 5)
         error = 0
-    elif user_input == left or right:
+    elif user_input == "left" or user_input == "right":
         leftright(user_input, 5)
         error = 0
-    elif user_input == forward or backward:
+    elif user_input == "forward" or user_input == "backward":
         forwardbackward(user_input, 5)
         error = 0
     else:
         print("An error occured, please try again and check your spelling.")
         error = error + 1
-        if error > 3:
+        if error >= 3:
             print("Too many errors occured, exiting now.")
             break
 
