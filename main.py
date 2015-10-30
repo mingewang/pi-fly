@@ -24,9 +24,9 @@ stationary_pin = 16
 backward_pin = 18
 
 pin_list = [updown_pin, neutral_pin, right_pin, statinory_pin, backward_pin]
-checkpoint = {}
+checkpoints = {}
 flight_data = {
-    "checkpoints": checkpoint,
+    "checkpoints": checkpoints,
     "pin_list": pin_list
 }
 
@@ -63,25 +63,49 @@ def n_c(n):  # Checks if input is numeric
         return False
 
 
-def flight_data(list_path, add):
-    print("hello")
+def flight_path(user_input):
+    if user_input == print:
+        for i in sorted(checkpoint):
+            print(checkpoint[i])
 
 
-def set_checkpointpoint(x, y, z, checkpoint):
-    if n_c(x) == True and n_c(y) == True and n_c(z) == True and n_c(checkpoint) == True:
-        print("temp")
+def set_checkpointpoint(x, y, z, w):
+    if n_c(x) == True and n_c(y) == True and n_c(z) == True and n_c(w) == True:
+        checkpoint = "Checkpoint " + str(w)
+        checkpoints[checkpoint] = [x, y, z]
+    else:
+        print("Error: values not numeric")
+'''
+for k, v in sorted(d.items()):
+    print k, ':', v
 
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
+    or
+
+for k in sorted(d):
+   print d[k]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
 
 
 def updown(thrust, air_time):  # Thrust is a value between 0 and 1
