@@ -35,8 +35,9 @@ GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)  # Set pins as output, GPIO.LOW 
 GPIO.output(neutral_pin, 1)
 GPIO.output(stationary_pin, 1)
 
-if rpio == True:
+if (rpio is True or rpio == 1):
     servo = GPIO.PWM.Servo()  # PWM module uses servo everywhere, so we do to
+
     def pwm(pin, state):
         if state == 0:
             servo.stop_servo(pin)
@@ -54,20 +55,33 @@ else:
         else:
             print("Error: value not recognised, please make sure it is between 0 and 1.")
 
-def n_c(n): # Checks if input is numeric
+
+def n_c(n):  # Checks if input is numeric
     if type(n) == int or type(n) == float:
         return True
     else:
         return False
 
-def flight_data(list_path, add, )
+
+def flight_data(list_path, add):
+    print("hello")
+
 
 def set_checkpointpoint(x, y, z, checkpoint):
     if n_c(x) == True and n_c(y) == True and n_c(z) == True and n_c(checkpoint) == True:
-        
+        print("temp")
 
-
-
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
 
 
 def updown(thrust, air_time):  # Thrust is a value between 0 and 1
@@ -78,6 +92,7 @@ def updown(thrust, air_time):  # Thrust is a value between 0 and 1
     else:
         print("Error")
     return
+
 
 def leftright(direction, air_time):
     if direction == left:
@@ -97,6 +112,7 @@ def leftright(direction, air_time):
     else:
         print("Error")
     return
+
 
 def forwardbackward(direction, air_time):
     if direction == forward:
