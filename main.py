@@ -31,7 +31,8 @@ flight_data = {
 }
 
 GPIO.setmode(GPIO.BOARD)  # Set pin numbering to board layout
-GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)  # Set pins as output, GPIO.LOW is same as 0 and False
+# Set pins as output, GPIO.LOW is same as 0 and False
+GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)
 GPIO.output(neutral_pin, 1)
 GPIO.output(stationary_pin, 1)
 
@@ -72,7 +73,8 @@ def flight_path(user_input):
         else:
             print("Sorry no flight path is set.")
     elif user_input == "delete":
-        u_input = input("Are you sure you want to delete the flight path?").lower()
+        u_input = input(
+            "Are you sure you want to delete the flight path?").lower()
         if u_input == "yes" or u_input == "y":
             checkpoints = {}
             print("The flight path has been deleted.")
@@ -127,7 +129,9 @@ def updown(thrust, air_time):  # Thrust is a value between 0 and 1
         time.sleep(air_time)
         pwm(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function updown")
+        GPIO.cleanup()
+        exit()
     return
 
 
@@ -147,7 +151,9 @@ def leftright(direction, air_time):
         GPIO.output(neutral_pin, 1)
         GPIO.output(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function leftright")
+        GPIO.cleanup()
+        exit()
     return
 
 
@@ -167,13 +173,16 @@ def forwardbackward(direction, air_time):
         GPIO.output(stationary_pin, 1)
         GPIO.output(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function forwardbackward")
+        GPIO.cleanup()
+        exit()
     return
 
 error = 0
 
 while True:
-    user_input = input("You have the following options: up, left/right, forward/backward and exit, default air_time at the moment is 5 seconds.").lower()
+    user_input = input(
+        "You have the following options: up, left/right, forward/backward and exit, default air_time at the moment is 5 seconds.").lower()
     if user_input == "exit":
         break
     elif user_input == "up":

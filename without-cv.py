@@ -3,9 +3,6 @@ import time
 import imp
 from sys import version_info
 
-print("The computer has no idea where to helicopter(s) are.")
-print("Please use main.py if the helicopter(s) are not chained to the floor.")
-
 try:
     imp.find_module('RPIO')
     import RPIO as GPIO
@@ -27,9 +24,15 @@ stationary_pin = 16
 backward_pin = 18
 
 pin_list = [updown_pin, neutral_pin, right_pin, stationary_pin, backward_pin]
+checkpoints = {}
+flight_data = {
+    "checkpoints": checkpoints,
+    "pin_list": pin_list
+}
 
 GPIO.setmode(GPIO.BOARD)  # Set pin numbering to board layout
-GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)  # Set pins as output, GPIO.LOW is same as 0 and False
+# Set pins as output, GPIO.LOW is same as 0 and False
+GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)
 GPIO.output(neutral_pin, 1)
 GPIO.output(stationary_pin, 1)
 
@@ -54,13 +57,81 @@ else:
             print("Error: value not recognised, please make sure it is between 0 and 1.")
 
 
+def n_c(n):  # Checks if input is numeric
+    if type(n) == int or type(n) == float:
+        return True
+    else:
+        return False
+
+
+def flight_path(user_input):
+    if user_input == "print":
+        if bool(checkpoints) == True:
+            print("This is the flight path:")
+            for i, j in sorted(checkpoints.items()):
+                print(i, ":", j)
+        else:
+            print("Sorry no flight path is set.")
+    elif user_input == "delete":
+        u_input = input(
+            "Are you sure you want to delete the flight path?").lower()
+        if u_input == "yes" or u_input == "y":
+            checkpoints = {}
+            print("The flight path has been deleted.")
+        else:
+            print("The flight path has not been deleted.")
+    else:
+        print("Error: unknown command.")
+
+
+def set_checkpointpoint(x, y, z, w):
+    if n_c(x) == True and n_c(y) == True and n_c(z) == True and n_c(w) == True:
+        checkpoint = "Checkpoint " + str(w)
+        checkpoints[checkpoint] = [x, y, z]
+    else:
+        print("Error: values not numeric")
+'''
+for k, v in sorted(d.items()):
+    print k, ':', v
+
+    or
+
+for k in sorted(d):
+   print d[k]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+
+
 def updown(thrust, air_time):  # Thrust is a value between 0 and 1
     if 0 <= thrust <= 1:
         pwm(updown_pin, 1)
         time.sleep(air_time)
         pwm(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function updown")
+        GPIO.cleanup()
+        exit()
     return
 
 
@@ -80,7 +151,9 @@ def leftright(direction, air_time):
         GPIO.output(neutral_pin, 1)
         GPIO.output(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function leftright")
+        GPIO.cleanup()
+        exit()
     return
 
 
@@ -100,13 +173,16 @@ def forwardbackward(direction, air_time):
         GPIO.output(stationary_pin, 1)
         GPIO.output(updown_pin, 0)
     else:
-        print("Error")
+        print("Error at function forwardbackward")
+        GPIO.cleanup()
+        exit()
     return
 
 error = 0
 
 while True:
-    user_input = input("You have the following options: up, left/right, forward/backward and exit, default air_time at the moment is 5 seconds.").lower()
+    user_input = input(
+        "You have the following options: up, left/right, forward/backward and exit, default air_time at the moment is 5 seconds.").lower()
     if user_input == "exit":
         break
     elif user_input == "up":

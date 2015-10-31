@@ -4,8 +4,10 @@ import imp
 from sys import version_info
 
 print("Warning!")
+print("The computer has no idea where to helicopter(s) are.")
+print("Please use main.py if the helicopter(s) are not chained to the floor.")
 print("This program is a dry-run to test the code.")
-print("Please execute main.py for the real program.")
+print("Please execute without-cv.py for the real program.")
 
 try:
     imp.find_module('RPIO')
@@ -63,7 +65,9 @@ def updown(thrust, air_time):  # Thrust is a value between 0 and 1
         time.sleep(air_time)
         print("pwm(updown_pin, 0)")
     else:
-        print("Error1")
+        print("Error at function updown")
+        print("GPIO.cleanup()")
+        exit()
     return
 
 
@@ -83,7 +87,9 @@ def leftright(direction, air_time):
         print("GPIO.output(neutral_pin, 1)")
         print("GPIO.output(updown_pin, 0)")
     else:
-        print("Error2")
+        print("Error at function leftright")
+        print("GPIO.cleanup()")
+        exit()
     return
 
 
@@ -103,23 +109,26 @@ def forwardbackward(direction, air_time):
         print("GPIO.output(stationary_pin, 1)")
         print("GPIO.output(updown_pin, 0)")
     else:
-        print("Error3")
+        print("Error at function forwardbackward")
+        print("GPIO.cleanup()")
+        exit()
     return
 
 error = 0
 
 while True:
-    user_input = input("You have the following options: up, left/right, forward/backward and exit, default air time is 5 seconds.").lower()
+    user_input = input(
+        "You have the following options: up, left/right, forward/backward and exit, default air time is 5 seconds.").lower()
     if user_input == "exit":
         break
     elif user_input == "up":
-        updown(1, 5)
+        updown(1, 1)
         error = 0
     elif user_input == "left" or user_input == "right":
-        leftright(user_input, 5)
+        leftright(user_input, 1)
         error = 0
     elif user_input == "forward" or user_input == "backward":
-        forwardbackward(user_input, 5)
+        forwardbackward(user_input, 1)
         error = 0
     else:
         error = error + 1
