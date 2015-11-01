@@ -14,7 +14,7 @@ except ImportError:
     rpio = False
 
 if version_info[0] <= 2:
-    print("Error: Python version is not compatible with this code.")
+    print("Error: Python version is not compatible with this code")
     exit()
 
 updown_pin = 11
@@ -31,8 +31,7 @@ flight_data = {
 }
 
 GPIO.setmode(GPIO.BOARD)  # Set pin numbering to board layout
-# Set pins as output, GPIO.LOW is same as 0 and False
-GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)
+GPIO.setup(pin_list, GPIO.OUT, intial=GPIO.LOW)  # Set pins as output, GPIO.LOW is same as 0 and False
 GPIO.output(neutral_pin, 1)
 GPIO.output(stationary_pin, 1)
 
@@ -91,20 +90,6 @@ def set_checkpointpoint(x, y, z, w):
     else:
         print("Error: values not numeric")
 '''
-for k, v in sorted(d.items()):
-    print k, ':', v
-
-    or
-
-for k in sorted(d):
-   print d[k]
-
-
-
-
-
-
-
 
 
 
